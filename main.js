@@ -1,18 +1,18 @@
-﻿document.getElementById('choreInputForm').addEventListener('submit', savechore);
+﻿document.getElementById('choreInputForm').addEventListener('submit', saveChore);
 
-function savechore(e) {
+function saveChore(e) {
     var choreDesc = document.getElementById('choreDescInput').value;
-    var choreseverity = document.getElementById('choreseverityInput').value;
+    var choreSeverity = document.getElementById('choreSeverityInput').value;
     var choreAssignedTo = document.getElementById('choreAssignedToInput').value;
     var choreId = chance.guid();
-    var chorestatus = 'Open';
+    var choreStatus = 'Open';
 
     var chore = {
         id: choreId,
         description: choreDesc,
-        severity: choreseverity,
+        severity: choreSeverity,
         assignedTo: choreAssignedTo,
-        status: chorestatus
+        status: choreStatus
     }
 
     if (localStorage.getItem('chores') == null) {
@@ -27,7 +27,7 @@ function savechore(e) {
 
     document.getElementById('choreInputForm').reset();
 
-    fetchchores();
+    fetchChores();
 
     e.preventDefault();
 }
@@ -43,10 +43,10 @@ function setStatusClosed(id) {
 
     localStorage.setItem('chores', JSON.stringify(chores));
 
-    fetchchores();
+    fetchChores();
 }
 
-function deletechore(id) {
+function deleteChore(id) {
     var chores = JSON.parse(localStorage.getItem('chores'));
 
     for (var i = 0; i < chores.length; i++) {
@@ -57,12 +57,12 @@ function deletechore(id) {
 
     localStorage.setItem('chores', JSON.stringify(chores));
 
-    fetchchores();
+    fetchChores();
 }
 
-function fetchchores() {
+function fetchChores() {
     var chores = JSON.parse(localStorage.getItem('chores'));
-    var choresListe = document.getElementById('choresList');
+    var choresList = document.getElementById('choresList');
 
     choresList.innerHTML = '';
 
@@ -74,13 +74,13 @@ function fetchchores() {
         var status = chores[i].status;
 
         choresList.innerHTML += '<div class="well">' +
-            '<h6>chore ID: ' + id + '</h6>' +
+            '<h6>Chore ID: ' + id + '</h6>' +
             '<p><span class="label label-info">' + status + '</span></p>' +
             '<h3>' + desc + '</h3>' +
             '<p><span class="glyphicon glyphicon-time"></span> ' + severity + '</p>' +
             '<p><span class="glyphicon glyphicon-user"></span> ' + assignedTo + '</p>' +
             '<a href="#" onclick="setStatusClosed(\'' + id + '\')" class="btn btn-warning">Close</a> ' +
-            '<a href="#" onclick="deletechore(\'' + id + '\')" class="btn btn-danger">Delete</a>' +
+            '<a href="#" onclick="deleteChore(\'' + id + '\')" class="btn btn-danger">Delete</a>' +
             '</div>';
     }
 }
